@@ -46,11 +46,6 @@ imstact.loadfrompath(file_path)
 raw_data = Image.open(file_path+"/000000.png")
 
 
-def gen_image():
-
-    return image
-
-
 @app.route('/refresh/', methods=['GET','POST'])
 def test():
     value = request.args.get("value")
@@ -58,7 +53,7 @@ def test():
 
     if request.method == "POST":
       clicked=request.json['value']
-      
+
     return render_template('gallery.html')
 
 
