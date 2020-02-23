@@ -35,11 +35,11 @@ div.button {
 <body>
 
 <div class="gallery">
-  <a target="_blank" href="{{ url_for('image',idx=0) }}">
-    <img src="{{ url_for('image',idx=1) }}" alt=" Terre" value="0" onclick="image_click(0)" width="600" height="400">
+  <a target="_blank" >
+    <img src="{{ url_for('image',idx=0) }}" alt=" Terre" value="0" onclick="image_click(0)" width="1000" height="700">
   </a>
   <div class="wrapper">
-      <a href=# id=refresh><button class='btn btn-default'>Test</button></a>
+      <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">Test</button></a>
   </div>
 </div>
 
@@ -48,22 +48,18 @@ div.button {
 <script type=text/javascript>
 
 function image_click(value) {
-var xhttp = new XMLHttpRequest();
-xhttp.open("GET", value, true);
-xhttp.send();
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "select?idx="+value, true);
+  xhttp.send();
+  window.location.href="refresh"
+  
 }
 
-$(function() {
-  $('a#test').bind('click', function() {
-    $.getJSON('/refresh',{value:"1"}
-        function(data) {
-          xhttp.open("GET", value, true);
-          xhttp.send();
-      //do nothing
-    });
-    return false;
-  });
-});
+function refresh_image() {
+  window.location.href="refresh"
+}
+
+
 </script>
 
 </html>

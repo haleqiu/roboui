@@ -1,4 +1,4 @@
-from flask import Flask, send_file, render_template
+from flask import Flask, send_file, render_template, request, redirect, url_for
 from PIL import Image
 import numpy as np
 import io, sys, glob, os, time
@@ -15,8 +15,8 @@ class image_stack:
         self.imnum+=1
 
     def loadim(self,id):
-        idx = id + self.batchid*8
-        if id == 7:
+        idx = id + self.batchid*self.batchsize
+        if id == self.batchsize-1:
             self.batchid+=1
         return self.imagelist[idx]
 
@@ -32,45 +32,23 @@ class image_stack:
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-#
-# raw_data = [
-#     [[255,255,255],[0,0,0],[255,255,255]],
-#     [[0,0,1],[255,255,255],[0,0,0]],
-#     [[255,255,255],[0,0,0],[255,255,255]],
-# ]
-
 
 file_path="./temp"
-imstact = image_stack()
+imstact = image_stack(batchsize=1)
 imstact.loadfrompath(file_path)
-raw_data = Image.open(file_path+"/000000.png")
 
+@app.route('/refresh/')
+def refresh_image():
+    return redirect(url_for('display_gallery'))
 
-@app.route('/refresh/', methods=['GET','POST'])
-def test():
-    value = request.args.get("value")
-    print('Hello world !idx%s'%value, file=sys.stderr)
-
-    if request.method == "POST":
-      clicked=request.json['value']
-
-    return render_template('gallery.html')
-
-
-
+@app.route('/select', methods=['GET','POST'])
+def select_image():
+    value = request.args.get("idx")
+    print('select !idx%s'%value, file=sys.stderr)
+    return "200"
 
 @app.route('/gallery')
 def display_gallery():
-    # my numpy array
-    arr = np.array(raw_data)
-    # convert numpy array to PIL Image
-    img = Image.fromarray(arr.astype('uint8'))
-    # create file-object in memory
-    file_object = io.BytesIO()
-    # write PNG in file-object
-    img.save(file_object, 'PNG')
-    # move to beginning of file so `send_file()` it will read from start
-    file_object.seek(0)
     return render_template('gallery.html')
 
 @app.route('/get_image/<int:idx>')
