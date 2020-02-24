@@ -36,13 +36,15 @@ div.button {
 
 <div class="gallery">
   <a target="_blank" >
-    <img src="{{ url_for('image',idx=0) }}" alt=" Terre" value="0" onclick="image_click(0)" width="1000" height="700">
+    <img src="{{ url_for('image',idx=0) }}" alt=" Terre" value={{idx1}} onclick="image_click(this.value)" width="1000" height="700">
   </a>
   <div class="wrapper">
-      <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">Test</button></a>
+  <p> ID: {{idx1}}
   </div>
 </div>
-
+<div class="wrapper">
+    <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">Test</button></a>
+</div>
 </body>
 
 <script type=text/javascript>
@@ -52,7 +54,7 @@ function image_click(value) {
   xhttp.open("GET", "select?idx="+value, true);
   xhttp.send();
   window.location.href="refresh"
-  
+
 }
 
 function refresh_image() {

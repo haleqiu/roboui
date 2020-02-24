@@ -7,6 +7,7 @@ class image_stack:
     def __init__(self,batchsize = 8):
         self.imagelist = []
         self.imnum = 0
+        self.image_id = -1
         self.batchid = 0
         self.batchsize = batchsize
 
@@ -18,6 +19,11 @@ class image_stack:
         idx = id + self.batchid*self.batchsize
         if id == self.batchsize-1:
             self.batchid+=1
+        return self.imagelist[idx]
+
+    def request_image(self,id):
+    ## the simulated API
+        idx = int(id)
         return self.imagelist[idx]
 
     def loadfrompath(self,path):
@@ -49,13 +55,14 @@ def select_image():
 
 @app.route('/gallery')
 def display_gallery():
-    return render_template('gallery.html')
+    return render_template('gallery.html',idx1="0")
 
 @app.route('/get_image/<int:idx>')
 def image(idx):
     print('Hello world !idx%s'%idx, file=sys.stderr)
     # my numpy array
-    arr = imstact.loadim(idx)
+    # arr = imstact.loadim(idx)
+    arr = imstact.request_image(idx)
     print('Hello world !batch%s'%imstact.batchid, file=sys.stderr)
     img = Image.fromarray(arr.astype('uint8'))
     # create file-object in memory
