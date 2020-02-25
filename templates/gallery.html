@@ -6,7 +6,8 @@ div.gallery {
   margin: 5px;
   border: 1px solid #ccc;
   float: left;
-  width: 180px;
+  width: 300px;
+  box-shadow: 10px 10px 5px grey;
 }
 
 div.gallery:hover {
@@ -36,7 +37,7 @@ div.button {
 
 <div class="gallery">
   <a target="_blank" >
-    <img src="{{ url_for('image',idx=0) }}" alt=" Terre" value={{idx1}} onclick="image_click(this.value)" width="1000" height="700">
+    <img src="{{ url_for('image',idx=idx1) }}" alt=" Terre" value={{idx1}} onclick="image_click(this.value)" width="1000" height="700">
   </a>
   <div class="wrapper">
   <p> ID: {{idx1}}

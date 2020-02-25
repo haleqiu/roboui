@@ -55,7 +55,7 @@ def select_image():
 
 @app.route('/gallery')
 def display_gallery():
-    return render_template('gallery.html',idx1="0")
+    return render_template('anigallery.html',idx1="0")
 
 @app.route('/get_image/<int:idx>')
 def image(idx):
@@ -69,6 +69,7 @@ def image(idx):
     file_object = io.BytesIO()
     # write PNG in file-object
     img.save(file_object, 'PNG')
+    print(arr,file=sys.stderr)
     # move to beginning of file so `send_file()` it will read from start
     file_object.seek(0)
     return send_file(file_object, mimetype='image/PNG')
