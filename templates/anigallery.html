@@ -3,24 +3,19 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  .row > .column {
-    padding: 0 8px;
-  }
 
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+}
 
-  .column {
-    float: left;
-    width: 25%;
-  }
 
 .container {
   position: relative;
   width: 100%;
+  margin: 5px;
+
 }
 .image {
   opacity: 1;
@@ -37,8 +32,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-30%, -30%);
-  -ms-transform: translate(-30%, -30%);
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   text-align: center;
 }
 
@@ -59,25 +54,43 @@
 </style>
 </head>
 <body>
-<div class="row">
-<div class="column">
+<div class="grid-container">
+
+
+{%for idx1 in idxlist%}
 <div class="container">
-  <img src="{{ url_for('image',idx=idx1) }}" alt="Avatar" class="image" style="width:100%">
+  <img src="{{ url_for('image',idx=1) }}" id="imgcont" alt="Avatar" class="image" style="width:100%">
   <div class="middle">
+
     <div class="text">{{idx1}}</div>
   </div>
-</div>
+
+
+    </div>
+{%endfor%}
+
+
 </div>
 
-<div class="column">
-<div class="container">
-  <img src="{{ url_for('image',idx=idx1) }}" alt="Avatar" class="image" style="width:100%">
-  <div class="middle">
-    <div class="text">{{idx1}}</div>
-  </div>
+<div class="wrapper">
+    <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">Test</button></a>
 </div>
-</div>
-</div>
+
+<script type=text/javascript>
+
+function image_click(value) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "select?idx="+value, true);
+  xhttp.send();
+  window.location.href="refresh"
+
+}
+
+function refresh_image() {
+  window.location.href="refresh"
+}
+
+</script>
 
 </body>
 </html>
