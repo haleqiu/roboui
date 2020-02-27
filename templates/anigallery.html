@@ -20,7 +20,7 @@
 .image {
   opacity: 1;
   display: block;
-  width: 100%;
+  width: 50%;
   height: auto;
   transition: .5s ease;
   backface-visibility: hidden;
@@ -59,12 +59,11 @@
 
 {%for idx1 in idxlist%}
 <div class="container">
-  <img src="{{ url_for('image',idx=1) }}" id="imgcont" alt="Avatar" class="image" style="width:100%">
+  <img src="{{ url_for('image',idx=idx1)}}" id="imgcont" value={{idx1}} alt="Avatar" onclick="image_click({{idx1}})" class="image" style="width:100%">
   <div class="middle">
 
     <div class="text">{{idx1}}</div>
   </div>
-
 
     </div>
 {%endfor%}
@@ -73,16 +72,17 @@
 </div>
 
 <div class="wrapper">
-    <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">Test</button></a>
+    <a  id=refresh><button class='btn btn-default' onclick="refresh_image()">All images are interesting!</button></a>
 </div>
 
 <script type=text/javascript>
 
 function image_click(value) {
+  // alert(value)
   var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "select?idx="+value, true);
   xhttp.send();
-  window.location.href="refresh"
+  window.location.href="gallery"
 
 }
 
